@@ -3,6 +3,7 @@
     Percentage
     .chart-wrap
       .chart
+        p １週間の記録
         ChartLine(:chartdata="chartdata", :options="options")
 
 </template>
@@ -112,11 +113,17 @@ export default {
   height: 100vh;
   background: #e0e06e;
   .chart {
-    padding: 20px 10px 10px;
+    padding: 10px 10px 10px;
     background: #fff;
     width: calc(100% - 40px);
     max-width: 300px;
     margin: 0 auto;
+    p {
+      text-align: center;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 15px;
+    }
   }
   .chart-wrap {
     padding-top: 10px;

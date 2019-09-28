@@ -14,7 +14,7 @@ export const state = () => ({
     },
     "20190927": {
       "last-update": '2019/09/27 10:00:00',
-      "count": 4
+      "count": 10
     },
   },
   app: {
@@ -23,7 +23,7 @@ export const state = () => ({
       goal: "岐阜駅",
       start: "大垣駅",
       start_time: "2019-09-29 10:00",
-      distance: 15497,
+      distance: 10 //デモ用
     }
   }
 })
