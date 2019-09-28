@@ -13,8 +13,9 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import { mapMutations } from 'vuex'
+import firebase from "~/plugins/firebase.js"
+import { mapGetters } from 'vuex'
+const db = firebase.firestore()
 
 export default {
   data () {
@@ -22,6 +23,17 @@ export default {
       start: '大垣駅',
       goal: '岐阜駅'
     }
+  },
+  computed: {
+    ...mapGetters([
+      'data',
+      'app'
+    ])
+  },
+  created () {
+    // firestoreのpostsをバインド
+    //this.$store.dispatch('setDataRef', db.collection('data'))
+    //this.$store.dispatch('setAppRef', db.collection('app'))
   },
   methods: {
     async handleStart () {
@@ -32,9 +44,8 @@ export default {
       console.log(response)
       if (response.status === 'OK') {
         const value = response.rows[0].elements[0].distance.value
-        this.$store.commit('returnDistance', value)
+        this.$router.push('/graph')
       }
-      //this.$router.push('/graph')
 
     }
   }
@@ -47,7 +58,7 @@ export default {
   height: 100vh;
   background: #e0e06e;
   .img {
-    max-width: 400px;
+    max-width: 200px;
     width: 60%;
     margin: 0 auto;
     position: absolute;

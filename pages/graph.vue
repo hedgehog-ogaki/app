@@ -1,25 +1,102 @@
 <template lang="pug">
-  .start
-    h1.title 旅するハリネズミ
-    .img
-      img(src="~/assets/images/animal_harinezumi.png")
-    el-form
-      el-input(placeholder="出発地点" v-model="start")
-      el-input(placeholder="ゴール地点" v-model="goal")
-
-
-    el-button(type="primary" @click="handleStart") スタート
+  .graph
+    Percentage
+    .chart-wrap
+      .chart
+        ChartLine(:chartdata="chartdata", :options="options")
 
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import ChartLine from '~/components/ChartLine'
+import Percentage from '~/components/Percentage'
+import firebase from "~/plugins/firebase.js"
+const db = firebase.database()
 
 export default {
-  data () {
-    return {
-      start: null,
-      goal: null
+  computed: {
+    ...mapGetters([
+      'users',
+      'app'
+    ]),
+    weeks () {
+      let startWeek = this.$moment().startOf('isoWeek')
+      let weekArray = []
+      for (let i = 0; i < 7; i++) {
+        let tmp = this.$moment(startWeek).add(i, 'days')
+        let day = this.$moment(tmp).format('M/D')
+        weekArray.push(day)
+      }
+      return weekArray
+    },
+    weekKeys () {
+      let startWeek = this.$moment().startOf('isoWeek')
+      let weekArray = []
+      for (let i = 0; i < 7; i++) {
+        let tmp = this.$moment(startWeek).add(i, 'days')
+        let day = this.$moment(tmp).format('YYYYMMDD')
+        weekArray.push(day)
+      }
+      return weekArray
+    },
+    weekData () {
+      let dataArray = []
+      if (!this.users) return []
+      this.weekKeys.forEach(week => {
+        let tmp = this.users[week] ? this.users[week]  : null
+        console.log(this.users)
+        let value = tmp ? tmp.count : null
+        dataArray.push(value)
+      })
+      return dataArray
+    },
+    chartdata () {
+      return {
+        labels: this.weeks,
+        datasets: [{
+          label: '',
+          data: this.weekData,
+          borderColor: 'rgba(255, 100, 100, 1)',
+        }]
+      }
+    },
+    options () {
+      return {
+        legend: {
+          display: false,
+          labels: {
+            defaultFontSize: 10
+          }
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+              return data.datasets[0].data[tooltipItem.index] + 'm'
+            }
+          },
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              min: 0,
+              userCallback: function(tick) {
+                return  `${tick}m`
+              }
+            },
+          }]
+        }
+      }
     }
+  },
+  created () {
+    // firestoreのpostsをバインド
+    //this.$store.dispatch('setDataRef', db.ref('users'))
+    //this.$store.dispatch('setAppRef', db.ref('app'))
+  },
+  components: {
+    ChartLine,
+    Percentage
   },
   methods: {
     handleStart () {
@@ -30,44 +107,19 @@ export default {
 </script>
 
 <style lang="scss">
-.start {
+.graph {
   width: 100vw;
   height: 100vh;
   background: #e0e06e;
-  .img {
-    max-width: 400px;
-    width: 60%;
+  .chart {
+    padding: 20px 10px 10px;
+    background: #fff;
+    width: calc(100% - 40px);
+    max-width: 300px;
     margin: 0 auto;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    img {
-      width: 100%;
-    }
   }
-  .title {
-    font-size: 20px;
-    text-align: center;
-    padding-top: 100px;
-  }
-  .el-button {
-    position: absolute;
-    bottom: 100px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #20840e;
-    border-color: #20840e;
-  }
-  .el-form {
-    width: 80%;
-    position: absolute;
-    bottom: 140px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .el-input {
-    margin-bottom: 10px;
+  .chart-wrap {
+    padding-top: 10px;
   }
 }
 </style>
