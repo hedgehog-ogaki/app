@@ -13,29 +13,17 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import { mapMutations } from 'vuex'
 
 export default {
   data () {
     return {
-      start: '大垣駅',
-      goal: '岐阜駅'
+      start: null,
+      goal: null
     }
   },
   methods: {
-    async handleStart () {
-
-      let url = `/api/distancematrix/json?origins=${this.start}&destinations=${this.goal}&mode=walking&language=ja&key=${process.env.googleMapId}`
-      let response = await this.$axios.$get(url)
-
-      console.log(response)
-      if (response.status === 'OK') {
-        const value = response.rows[0].elements[0].distance.value
-        this.$store.commit('returnDistance', value)
-      }
-      //this.$router.push('/graph')
-
+    handleStart () {
+      this.$router.push('/graph')
     }
   }
 }

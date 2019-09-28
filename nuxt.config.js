@@ -15,6 +15,16 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  env: {
+    apiKey: process.env.FIRE_APIKEY,
+    authDomain: process.env.FIRE_AUTH_DOMAIN,
+    databaseURL: process.env.FIRE_DATABASE_URL,
+    projectId: process.env.FIRE_PROJECT_ID,
+    storageBucket: process.env.FIRE_STORAGE_BUCKET,
+    messageSenderId: process.env.FIRE_MESSAGING_SENDER_ID,
+    appId: process.env.FIRE_APP_ID,
+    googleMapId: process.env.GOOGLE_MAP_API
+  },
   /*
   ** Customize the progress-bar color
   */
@@ -29,7 +39,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/element-ui'
+    '@/plugins/element-ui',
+    '@/plugins/firebase'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -42,12 +53,20 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
-  axios: {
+
+  proxy: {
+    '/api': {
+      target: 'https://maps.googleapis.com/maps/api',
+      pathRewrite: {
+        '^/api' : '/'
+      }
+    }
   },
   /*
   ** Build configuration
