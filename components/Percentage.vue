@@ -30,7 +30,9 @@ export default {
     ]),
     distance () {
       // 全部の距離
-      return this.app[0].distance
+      console.log(this.app)
+      if (!this.app || !this.app["20190920"]) return 0
+      return this.app["20190920"].distance
     },
     periodValues () {
       // TODO: 該当期間だけフィルタ
@@ -43,8 +45,11 @@ export default {
     current () {
       // 現在の距離
       // 仮に1カウント 25cm = 0.25m
+      console.log(this.users)
+      if (!this.users) return 0
       let current = 0
       for (let i in this.users) {
+        if (i == '.key') continue
         let count = this.users[i].count
         current += count * 0.25
       }
@@ -61,9 +66,25 @@ export default {
 <style lang="scss">
 .percentage {
   .el-progress-bar__inner {
+    position: relative;
+    &::after {
+      position: absolute;
+      content: "";
+      background: url('~assets/images/animal_harinezumi.png');
+      width: 50px;
+      height: 50px;
+      background-size: contain;
+      display: inline-block;
+      background-position: center;
+      z-index: 100;
+      margin: -30px 0 0 -10px;
+    }
   }
   .el-progress-bar__innerText {
     font-size: 11px;
+  }
+  .el-progress-bar__outer {
+    overflow: initial;
   }
 }
 </style>

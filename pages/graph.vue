@@ -92,8 +92,8 @@ export default {
   },
   created () {
     // firestoreのpostsをバインド
-    //this.$store.dispatch('setDataRef', db.ref('users'))
-    //this.$store.dispatch('setAppRef', db.ref('app'))
+    this.$store.dispatch('setDataRef', db.ref('users'))
+    this.$store.dispatch('setAppRef', db.ref('app'))
   },
   components: {
     ChartLine,

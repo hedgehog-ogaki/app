@@ -18,11 +18,11 @@ export const state = () => ({
     },
   },
   app: {
-    0: {
+    "20190920": {
       done: false,
       goal: "岐阜駅",
       start: "大垣駅",
-      start_time: "2019-09-29 10:00",
+      start_time: "2019-09-20 10:00",
       distance: 10 //デモ用
     }
   }
