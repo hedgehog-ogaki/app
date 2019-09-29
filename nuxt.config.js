@@ -61,6 +61,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
 
+  /*
   proxy: {
     '/api': {
       target: 'https://maps.googleapis.com/maps/api',
@@ -69,6 +70,7 @@ export default {
       }
     }
   },
+  */
   /*
   ** Build configuration
   */

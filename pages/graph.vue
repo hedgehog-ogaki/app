@@ -1,10 +1,14 @@
 <template lang="pug">
   .graph
+    .title 旅の進捗・・・
     Percentage
     .chart-wrap
       .chart
         p １週間の記録
         ChartLine(:chartdata="chartdata", :options="options")
+        p
+          span １週間の平均
+          span(v-html="`${ave}m`")
 
 </template>
 
@@ -21,6 +25,14 @@ export default {
       'users',
       'app'
     ]),
+    ave () {
+      if (this.weekData.length <= 0) return 0
+      let sum = 0
+      this.weekData.forEach(week => {
+        sum += week
+      })
+      if (sum > 0) return `${Math.round(sum / this.weekData.length * 100) / 100}`
+    },
     weeks () {
       let startWeek = this.$moment().startOf('isoWeek')
       let weekArray = []
@@ -41,12 +53,20 @@ export default {
       }
       return weekArray
     },
+    aveLine () {
+      let week = 7
+      let array = []
+      for(let i = 0; i < 7; i++) {
+        array.push(this.ave)
+      }
+      console.log(array)
+      return array
+    },
     weekData () {
       let dataArray = []
       if (!this.users) return []
       this.weekKeys.forEach(week => {
         let tmp = this.users[week] ? this.users[week]  : null
-        console.log(this.users)
         let value = tmp ? tmp.count : null
         dataArray.push(value)
       })
@@ -59,6 +79,12 @@ export default {
           label: '',
           data: this.weekData,
           borderColor: 'rgba(255, 100, 100, 1)',
+        },
+        {
+          label: '',
+          data: this.aveLine,
+          borderColor: 'rgba(145, 145, 145, 1)',
+          backgroundColor: 'rgba(255, 100, 100, 0)'
         }]
       }
     },
@@ -90,10 +116,10 @@ export default {
       }
     }
   },
-  created () {
+  async created () {
     // firestoreのpostsをバインド
-    //this.$store.dispatch('setDataRef', db.ref('users'))
-    //this.$store.dispatch('setAppRef', db.ref('app'))
+    await this.$store.dispatch('setDataRef', db.ref('users'))
+    await this.$store.dispatch('setAppRef', db.ref('app'))
   },
   components: {
     ChartLine,
@@ -127,6 +153,13 @@ export default {
   }
   .chart-wrap {
     padding-top: 10px;
+  }
+  .title {
+    padding-top: 30px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 20px;
+    text-decoration: underline;
   }
 }
 </style>

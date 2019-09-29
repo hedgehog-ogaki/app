@@ -1,15 +1,15 @@
 <template lang="pug">
   .percentage
+    el-progress(:percentage="percent", :text-inside="true", :stroke-width="18")
     p 
       span 目標距離：
-      span(v-html="`${distance}m`")
+      span.bold(v-html="`${distance}m`")
     p
       span 走った距離：
-      span(v-html="`${current}m`")
+      span.bold(v-html="`${current}m`")
     p
       span 進捗率：
-      span(v-html="`${percent}%`")
-    el-progress(:percentage="percent", :text-inside="true", :stroke-width="18")
+      span.bold(v-html="`${percent}%`")
 
 </template>
 
@@ -21,7 +21,19 @@ const db = firebase.database()
 export default {
   data () {
     return {
+      success: false
     }
+  },
+  watch: {
+    percent () {
+      if (this.percent == 100 && !this.success) {
+        let _this = this
+        setTimeout(function (){
+          _this.$router.push('/success')
+        }, 800)
+        this.success = true
+      }
+    },
   },
   computed: {
     ...mapGetters([
@@ -30,22 +42,22 @@ export default {
     ]),
     distance () {
       // 全部の距離
-      console.log(this.app)
-      if (!this.app || !this.app["20190920"]) return 0
-      return this.app["20190920"].distance
+      const day = "20190929"
+      if (!this.app || !this.app[day]) return 0
+      return this.app[day].distance
     },
     periodValues () {
       // TODO: 該当期間だけフィルタ
       return this.users
     },
     percent () {
-      if (this.current <= 0) return 0
-      return Math.floor(this.current / this.distance * 100)
+      if (this.current <= 0 || this.distance <= 0) return 0
+      let value = Math.floor(this.current / this.distance * 100)
+      return value >= 100 ? 100 : value
     },
     current () {
       // 現在の距離
       // 仮に1カウント 25cm = 0.25m
-      console.log(this.users)
       if (!this.users) return 0
       let current = 0
       for (let i in this.users) {
@@ -58,13 +70,12 @@ export default {
   },
   components: {
   },
-  methods: {
-  }
 }
 </script>
 
 <style lang="scss">
 .percentage {
+  margin-bottom: 20px;
   .el-progress-bar__inner {
     position: relative;
     &::after {
@@ -86,6 +97,15 @@ export default {
   }
   .el-progress-bar__outer {
     overflow: initial;
+  }
+  .bold {
+    font-weight: bold;
+  }
+  p {
+    padding: 5px 20px;
+  }
+  .el-progress {
+    padding: 40px 10px 10px;
   }
 }
 </style>
