@@ -40,8 +40,8 @@ export default {
   methods: {
     async handleStart () {
 
-      //let url = `/api/distancematrix/json?origins=${this.start}&destinations=${this.goal}&mode=walking&language=ja&key=${process.env.googleMapId}`
-      let url = `https://maps.googleapis.com/maps/api
+      let url = `/api/distancematrix/json?origins=${this.start}&destinations=${this.goal}&mode=walking&language=ja&key=${process.env.googleMapId}`
+      //let url = `https://maps.googleapis.com/maps/api
 /distancematrix/json?origins=${this.start}&destinations=${this.goal}&mode=walking&language=ja&key=${process.env.googleMapId}`
       let response = await this.$axios.$get(url,{
         headers: { "Content-Type": "application/json" },
