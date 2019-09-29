@@ -40,7 +40,8 @@ export default {
   */
   plugins: [
     '@/plugins/element-ui',
-    '@/plugins/firebase'
+    '@/plugins/firebase',
+    '@/plugins/googlemap'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -61,6 +62,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
 
+  /*
   proxy: {
     '/api': {
       target: 'https://maps.googleapis.com/maps/api',
@@ -69,6 +71,7 @@ export default {
       }
     }
   },
+  */
   /*
   ** Build configuration
   */
