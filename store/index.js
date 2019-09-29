@@ -4,6 +4,7 @@ import { firebaseMutations, firebaseAction } from 'vuexfire'
 export const state = () => ({
   distances: null,
   users: {
+    /*
     "20190926": {
       "last-update": '2019/09/26 10:00:00',
       "count": 4
@@ -16,8 +17,10 @@ export const state = () => ({
       "last-update": '2019/09/27 10:00:00',
       "count": 10
     },
+    */
   },
   app: {
+    /*
     "20190920": {
       done: false,
       goal: "岐阜駅",
@@ -25,6 +28,7 @@ export const state = () => ({
       start_time: "2019-09-20 10:00",
       distance: 10 //デモ用
     }
+    */
   }
 })
 

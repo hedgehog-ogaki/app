@@ -78,6 +78,7 @@ export default {
       background-position: center;
       z-index: 100;
       margin: -30px 0 0 -10px;
+      transform: scale(-1, 1);
     }
   }
   .el-progress-bar__innerText {
