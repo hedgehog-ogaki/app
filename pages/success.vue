@@ -35,7 +35,7 @@ export default {
 .success {
   width: 100vw;
   height: 100vh;
-  background: #e0e06e;
+  background: #ffecb1;
   .title {
     text-align: center;
     padding-top: 130px;

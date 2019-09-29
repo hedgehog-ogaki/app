@@ -137,7 +137,7 @@ export default {
 .graph {
   width: 100vw;
   height: 100vh;
-  background: #e0e06e;
+  background: #ffecb1;
   .chart {
     padding: 10px 10px 10px;
     background: #fff;

@@ -21,8 +21,8 @@ const db = firebase.firestore()
 export default {
   data () {
     return {
-      start: '大垣駅',
-      goal: '岐阜駅',
+      start: 'ソフトピアジャパン',
+      goal: '大垣市総合体育館',
       error: '',
       distance: 0
     }
@@ -132,7 +132,7 @@ export default {
 .start {
   width: 100vw;
   height: 100vh;
-  background: #e0e06e;
+  background: #ffecb1;
   .error {
     color: red;
     text-align: center;

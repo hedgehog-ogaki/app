@@ -63,7 +63,7 @@ export default {
       for (let i in this.users) {
         if (i == '.key') continue
         let count = this.users[i].count
-        current += count * 0.25
+        current += count * 120
       }
       return current
     }
